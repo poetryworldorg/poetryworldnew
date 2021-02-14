@@ -9,31 +9,41 @@ app.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-app.post('/signup', function (req, res, next) {
-  signup(req, res, next);
+app.post('/post', function (req, res, next) {
+  post(req, res, next);
 
 });
 
-app.post('/login', function (req, res, next) {
+app.post('/like', function (req, res, next) {
+  like(req, res, next);
+
+});
+
+app.post('/comment', function (req, res, next) {
+  comment(req, res, next);
+
+});
+
+app.post('/comment', function (req, res, next) {
   login(req, res, next);
 
 });
 
-function login(req, res, next) {
+function post(req, res, next) {
   var data = req.body;
 
   var requestData = {
-    "email": data.email,
-    "password": data.password,
+    "text": data.text,
+    "userid": data.userid,
   }
-  if (data.email || data.password) {
+  if (data.text || data.userid) {
 
     return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
   }
   else {
 
     new Promise((resolve, reject) => {
-      conn.query('SELECT name FROM user WHERE email= ?', data.email, function (err, rows) {
+      conn.query('SELECT name FROM user WHERE text= ?', data.text, function (err, rows) {
         if (err) {
           reject(new Error(err));
           callback(err, null);
@@ -52,14 +62,14 @@ function login(req, res, next) {
 function signup(req, res, next) {
   var data = req.body;
   var requestData = {
-    "email": data.email,
-    "password": data.password,
+    "text": data.text,
+    "userid": data.userid,
     "gender": data.gender,
     "name": data.gender,
     "address": data.address,
     "dob": data.dob
   }
-  if (data.email || data.password || data.gender || data.name) {
+  if (data.text || data.userid || data.gender || data.name) {
     return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
   }
   else {
