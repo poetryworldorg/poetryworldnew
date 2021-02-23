@@ -15,8 +15,8 @@ app.post('/post', function (req, res, next) {
 
 });
 
-app.post('/like', function (req, res, next) {
-  like(req, res, next);
+app.post('/likes', function (req, res, next) {
+  likes(req, res, next);
 
 });
 
@@ -52,7 +52,7 @@ function post(req, res, next) {
         if (err) {
           reject("Error");
         } else {
-          resolve('Hello, I am positive number!');
+          resolve('Post added Successfuly!');
           return res.status(200).json({ message: "Post added Successfuly", "statusCode": "200" });
         }
       });
@@ -63,27 +63,62 @@ function post(req, res, next) {
   console.log("RequestData: ", requestData);
 }
 
-function signup(req, res, next) {
+function likes(req, res, next) {
   var data = req.body;
   var requestData = {
-    "text": data.text,
+    "postid": data.postid,
+    "likes": data.likes,
     "userid": data.userid,
-    "gender": data.gender,
-    "name": data.gender,
-    "address": data.address,
-    "dob": data.dob
+    "time": data.time,
+    "status": '0'
   }
-  if (data.text || data.userid || data.gender || data.name) {
+  if (!data.postid || !data.userid) {
     return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
   }
   else {
 
     new Promise((resolve, reject) => {
-      if (Math.random() > 0) {
-        resolve('Hello, I am positive number!');
-        return res.status(200).json({ message: "Login2" });
-      }
-      reject(new Error('I failed some times'));
+
+      conn1.query('INSERT INTO post_likes SET ?', requestData, function (err, rows) {
+        if (err) {
+          reject("Error");
+        } else {
+          resolve('Likes added Successfuly!');
+          return res.status(200).json({ message: "Likes added Successfuly", "statusCode": "200" });
+        }
+      });
+
+    })
+  }
+  console.log("RequestData: ", requestData);
+
+}
+
+function comment(req, res, next) {
+  var data = req.body;
+  var requestData = {
+    "postid": data.postid,
+    "likes": data.likes,
+    "userid": data.userid,
+    "time": data.time,
+    "status": '0'
+  }
+  if (!data.postid || !data.userid) {
+    return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
+  }
+  else {
+
+    new Promise((resolve, reject) => {
+
+      conn1.query('INSERT INTO post_likes SET ?', requestData, function (err, rows) {
+        if (err) {
+          reject("Error");
+        } else {
+          resolve('Likes added Successfuly!');
+          return res.status(200).json({ message: "Likes added Successfuly", "statusCode": "200" });
+        }
+      });
+
     })
   }
   console.log("RequestData: ", requestData);
