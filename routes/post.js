@@ -1,6 +1,7 @@
 const e = require('express');
 var express = require('express');
 var conn = require('../node-mysql/config');
+conn1 = conn.connection();
 //var app = express.app();
 var app = express();
 var PORT = 3000;
@@ -35,21 +36,24 @@ function post(req, res, next) {
   var requestData = {
     "text": data.text,
     "userid": data.userid,
+    "background": data.background,
+    "font": data.font,
+    "time": data.time
   }
-  if (data.text || data.userid) {
+  if (!data.text || !data.userid) {
 
     return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
   }
   else {
 
     new Promise((resolve, reject) => {
-      conn.query('SELECT name FROM user WHERE text= ?', data.text, function (err, rows) {
+
+      conn1.query('INSERT INTO post SET ?', requestData, function (err, rows) {
         if (err) {
-          reject(new Error(err));
-          callback(err, null);
+          reject("Error");
         } else {
           resolve('Hello, I am positive number!');
-          return res.status(200).json({ message: "Login Successful", "statusCode": "200" });
+          return res.status(200).json({ message: "Post added Successfuly", "statusCode": "200" });
         }
       });
 

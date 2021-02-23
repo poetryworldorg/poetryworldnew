@@ -1,6 +1,7 @@
 const e = require('express');
 var express = require('express');
 var conn = require('../node-mysql/config');
+conn1 = conn.connection();
 //var app = express.app();
 var app = express();
 var PORT = 3000;
@@ -24,21 +25,22 @@ function login(req, res, next) {
 
   var requestData = {
     "email": data.email,
-    "password": data.password,
+    "password": data.password
   }
-  if (data.email || data.password) {
-
+  console.log("RequestData: ", requestData);
+  if (!data.email && !data.password) {
     return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
   }
   else {
 
     new Promise((resolve, reject) => {
-      conn.query('SELECT name FROM user WHERE email= ?', data.email, function (err, rows) {
-        if (err) {
-          reject(new Error(err));
-          callback(err, null);
+      let query = conn1.query("SELECT name FROM user WHERE email= ? and password=?", [data.email, data.password], function (err, rows) {
+        console.log("Rows ", query);
+        if (!query) {
+          reject('Credentials not matching');
+          return res.status(401).json({ message: "Credentials not matching", "statusCode": "401" });
         } else {
-          resolve('Hello, I am positive number!');
+          resolve('Login Successful !!');
           return res.status(200).json({ message: "Login Successful", "statusCode": "200" });
         }
       });

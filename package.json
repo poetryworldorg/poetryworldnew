@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
+    "npm start": "nodemon npm start",
     "dev": "cross-env NODE_ENV=development nodemon --watch server --inspect ./server/server.js"
   },
   "dependencies": {
@@ -13,6 +14,8 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.7",
+    "supervisor": "^0.12.0"
   }
 }
