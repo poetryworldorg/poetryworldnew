@@ -10,37 +10,25 @@ app.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-app.post('/post', function (req, res, next) {
-  post(req, res, next);
+app.get('/getProfile', function (req, res, next) {
+  getProfile(req, res, next);
 
 });
 
-app.post('/likes', function (req, res, next) {
-  likes(req, res, next);
+app.put('/updateProfile', function (req, res, next) {
+  updateProfile(req, res, next);
 
 });
 
-app.post('/comment', function (req, res, next) {
-  comment(req, res, next);
 
-});
 
-app.post('/comment', function (req, res, next) {
-  login(req, res, next);
-
-});
-
-function post(req, res, next) {
+function getProfile(req, res, next) {
   var data = req.body;
 
   var requestData = {
-    "text": data.text,
-    "userid": data.userid,
-    "background": data.background,
-    "font": data.font,
-    "time": data.time
+    "id": data.id
   }
-  if (!data.text || !data.userid) {
+  if (!data.email || !data.id) {
 
     return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
   }
@@ -48,12 +36,12 @@ function post(req, res, next) {
 
     new Promise((resolve, reject) => {
 
-      conn1.query('INSERT INTO post SET ?', requestData, function (err, rows) {
+      conn1.query("SELECT * FROM user WHERE id= ?", [data.id], function (err, rows) {
         if (err) {
           reject("Error");
         } else {
-          resolve('Post added Successfuly!');
-          return res.status(200).json({ message: "Post added Successfuly", "statusCode": "200" });
+          resolve('Profile get Successfuly!');
+          return res.status(200).json({ message: "Profile get Successfuly", "statusCode": "200" });
         }
       });
 
@@ -63,28 +51,32 @@ function post(req, res, next) {
   console.log("RequestData: ", requestData);
 }
 
-function likes(req, res, next) {
+function updateProfile(req, res, next) {
   var data = req.body;
+
   var requestData = {
-    "postid": data.postid,
-    "likes": data.likes,
-    "userid": data.userid,
-    "time": data.time,
-    "status": '0'
+    "id": data.id,
+    "email": data.email,
+    "password": data.password,
+    "gender": data.gender,
+    "name": data.gender,
+    "address": data.address,
+    "dob": data.dob
   }
-  if (!data.postid || !data.userid) {
+  if (!data.email || !data.id) {
+
     return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
   }
   else {
 
     new Promise((resolve, reject) => {
 
-      conn1.query('INSERT INTO post_likes SET ?', requestData, function (err, rows) {
+      conn1.query('Update user SET ? ', requestData, function (err, rows) {
         if (err) {
           reject("Error");
         } else {
-          resolve('Likes added Successfuly!');
-          return res.status(200).json({ message: "Likes added Successfuly", "statusCode": "200" });
+          resolve('Profile update Successfuly!');
+          return res.status(200).json({ message: "Profile update Successfuly", "statusCode": "200" });
         }
       });
 
