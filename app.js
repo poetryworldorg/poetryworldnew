@@ -11,6 +11,7 @@ var postRouter = require('./routes/post');
 var buyCardRouter = require('./routes/buycard');
 var profileRouter = require('./routes/profile');
 var walletRouter = require('./routes/wallet');
+var bookSalesRouter = require('./routes/booksales');
 
 var conn = require('./node-mysql/config');
 var app = express();
@@ -34,6 +35,7 @@ app.use('/post', postRouter);
 app.use('/profile', profileRouter);
 app.use('/buycard', buyCardRouter);
 app.use('/wallet', walletRouter);
+app.use('/booksales', bookSalesRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
