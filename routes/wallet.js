@@ -19,7 +19,7 @@ app.post('/addPoints', function (req, res, next) {
 
 });
 
-app.post('/updateWallet', function (req, res, next) {
+app.put('/updateWallet', function (req, res, next) {
   updateWallet(req, res, next);
 
 });

@@ -71,9 +71,9 @@ function updateProfile(req, res, next) {
 
     new Promise((resolve, reject) => {
 
-      conn1.query('Update user SET ? ', requestData, function (err, rows) {
+      conn1.query('Update user SET ? where id=?', [requestData, data.id], function (err, rows) {
         if (err) {
-          reject("Error");
+          return res.status(400).json({ message: err, statusMessage: "400" });
         } else {
           resolve('Profile update Successfuly!');
           return res.status(200).json({ message: "Profile update Successfuly", "statusCode": "200" });
