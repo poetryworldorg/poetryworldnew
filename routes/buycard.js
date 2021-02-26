@@ -10,17 +10,17 @@ app.get('/', function (req, res, next) {
   res.send('respond with a resource');
 });
 
-app.post('/signup', function (req, res, next) {
-  signup(req, res, next);
+app.post('/buycard', function (req, res, next) {
+  buyCard(req, res, next);
 
 });
 
-app.post('/login', function (req, res, next) {
-  login(req, res, next);
+app.post('/cancelcard', function (req, res, next) {
+  cancelCard(req, res, next);
 
 });
 
-function login(req, res, next) {
+function cancelCard(req, res, next) {
   var data = req.body;
 
   var requestData = {
@@ -40,8 +40,8 @@ function login(req, res, next) {
           reject('Credentials not matching');
           return res.status(401).json({ message: "Credentials not matching", "statusCode": "401" });
         } else {
-          resolve('Login Successful !!');
-          return res.status(200).json({ message: "Login Successful", "statusCode": "200" });
+          resolve('cancelCard Successful !!');
+          return res.status(200).json({ message: "cancelCard Successful", "statusCode": "200" });
         }
       });
 
@@ -51,7 +51,7 @@ function login(req, res, next) {
   console.log("RequestData: ", requestData);
 }
 
-function signup(req, res, next) {
+function buyCard(req, res, next) {
   var data = req.body;
   var requestData = {
     "email": data.email,
@@ -69,7 +69,7 @@ function signup(req, res, next) {
     new Promise((resolve, reject) => {
       if (Math.random() > 0) {
         resolve('Hello, I am positive number!');
-        return res.status(200).json({ message: "Login2" });
+        return res.status(200).json({ message: "cancelCard2" });
       }
       reject(new Error('I failed some times'));
     })

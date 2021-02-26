@@ -6,37 +6,32 @@ conn1 = conn.connection();
 var app = express();
 var PORT = 3000;
 /* GET users listing. */
-app.get('/', function (req, res, next) {
-  res.send('respond with a resource');
+app.get('/getWallet', function (req, res, next) {
+  getWallet(req, res, next);
 });
 
-app.post('/post', function (req, res, next) {
-  post(req, res, next);
-
+app.get('/transactionHistory', function (req, res, next) {
+  getTransactionHistory(req, res, next);
 });
 
-app.post('/likes', function (req, res, next) {
-  likes(req, res, next);
-
-});
-
-app.post('/comment', function (req, res, next) {
-  comment(req, res, next);
+app.post('/addPoints', function (req, res, next) {
+  addPoints(req, res, next);
 
 });
 
+app.post('/updateWallet', function (req, res, next) {
+  updateWallet(req, res, next);
 
-function post(req, res, next) {
+});
+
+
+function getWallet(req, res, next) {
   var data = req.body;
 
   var requestData = {
-    "text": data.text,
-    "userid": data.userid,
-    "background": data.background,
-    "font": data.font,
-    "time": data.time
+    "userid": data.userid
   }
-  if (!data.text || !data.userid) {
+  if (!data.userid) {
 
     return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
   }
@@ -44,12 +39,12 @@ function post(req, res, next) {
 
     new Promise((resolve, reject) => {
 
-      conn1.query('INSERT INTO post SET ?', requestData, function (err, rows) {
+      conn1.query("SELECT * FROM user WHERE id= ?", data.userid, function (err, rows) {
         if (err) {
           reject("Error");
         } else {
           resolve('Post added Successfuly!');
-          return res.status(200).json({ message: "Post added Successfuly", "statusCode": "200" });
+          return res.status(200).json({ message: "Wallet get Successfuly", "statusCode": "200", data: rows });
         }
       });
 
