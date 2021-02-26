@@ -10,8 +10,8 @@ app.get('/getBookList', function (req, res, next) {
   getBookList(req, res, next);
 });
 
-app.get('/transactionHistory', function (req, res, next) {
-  getTransactionHistory(req, res, next);
+app.get('/bookdetails', function (req, res, next) {
+  getBookDetails(req, res, next);
 });
 
 app.put('/updateWallet', function (req, res, next) {
@@ -49,7 +49,7 @@ function getBookList(req, res, next) {
   console.log("RequestData: ", requestData);
 }
 
-function getTransactionHistory(req, res, next) {
+function getBookDetails(req, res, next) {
   var data = req.body;
 
   var requestData = {
@@ -63,12 +63,12 @@ function getTransactionHistory(req, res, next) {
 
     new Promise((resolve, reject) => {
 
-      conn1.query("SELECT * FROM wallet WHERE id= ?", data.id, function (err, rows) {
+      conn1.query("SELECT * FROM books WHERE id= ?", data.id, function (err, rows) {
         if (err) {
           return res.status(400).json({ message: err, statusMessage: "400" });
         } else {
-          resolve('Wallet Transaction history get Successfuly!');
-          return res.status(200).json({ message: "Wallet Transaction history get Successfuly", "statusCode": "200", data: rows });
+          resolve('Book details get Successfuly!');
+          return res.status(200).json({ message: "Book details get Successfuly", "statusCode": "200", data: rows });
         }
       });
 
