@@ -6,8 +6,8 @@ conn1 = conn.connection();
 var app = express();
 var PORT = 3000;
 /* GET users listing. */
-app.get('/getWallet', function (req, res, next) {
-  getWallet(req, res, next);
+app.get('/getBookList', function (req, res, next) {
+  getBookList(req, res, next);
 });
 
 app.get('/transactionHistory', function (req, res, next) {
@@ -20,7 +20,7 @@ app.put('/updateWallet', function (req, res, next) {
 });
 
 
-function getWallet(req, res, next) {
+function getBookList(req, res, next) {
   var data = req.body;
 
   var requestData = {
@@ -34,12 +34,12 @@ function getWallet(req, res, next) {
 
     new Promise((resolve, reject) => {
 
-      conn1.query("SELECT * FROM user WHERE id= ?", data.id, function (err, rows) {
+      conn1.query("SELECT * FROM books WHERE userid= ?", data.id, function (err, rows) {
         if (err) {
           return res.status(400).json({ message: err, statusMessage: "400" });
         } else {
-          resolve('Wallet get Successfuly!');
-          return res.status(200).json({ message: "Wallet get Successfuly", "statusCode": "200", data: rows });
+          resolve('books get Successfuly!');
+          return res.status(200).json({ message: "Books get Successfuly", "statusCode": "200", data: rows });
         }
       });
 
