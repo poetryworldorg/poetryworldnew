@@ -54,28 +54,27 @@ function getWallet(req, res, next) {
   console.log("RequestData: ", requestData);
 }
 
-function likes(req, res, next) {
+function updateWallet(req, res, next) {
   var data = req.body;
+
   var requestData = {
-    "postid": data.postid,
-    "likes": data.likes,
-    "userid": data.userid,
-    "time": data.time,
-    "status": '0'
+    "id": data.id,
+    "points": data.points,
   }
-  if (!data.postid || !data.userid) {
+  if (!data.id) {
+
     return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
   }
   else {
 
     new Promise((resolve, reject) => {
 
-      conn1.query('INSERT INTO post_likes SET ?', requestData, function (err, rows) {
+      conn1.query('Update user SET ? where id=?', [requestData, data.id], function (err, rows) {
         if (err) {
-          reject("Error");
+          return res.status(400).json({ message: err, statusMessage: "400" });
         } else {
-          resolve('Likes added Successfuly!');
-          return res.status(200).json({ message: "Likes added Successfuly", "statusCode": "200" });
+          resolve('Wallet updated Successfuly!');
+          return res.status(200).json({ message: "Wallet updated Successfuly", "statusCode": "200" });
         }
       });
 
@@ -84,6 +83,7 @@ function likes(req, res, next) {
   console.log("RequestData: ", requestData);
 
 }
+
 
 function comment(req, res, next) {
   var data = req.body;

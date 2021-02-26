@@ -41,7 +41,7 @@ function getProfile(req, res, next) {
           reject("Error");
         } else {
           resolve('Profile get Successfuly!');
-          return res.status(200).json({ message: "Profile get Successfuly", "statusCode": "200" });
+          return res.status(200).json({ message: "Profile get Successfuly", "statusCode": "200", data: rows });
         }
       });
 
@@ -86,36 +86,6 @@ function updateProfile(req, res, next) {
 
 }
 
-function comment(req, res, next) {
-  var data = req.body;
-  var requestData = {
-    "postid": data.postid,
-    "comment": data.likes,
-    "userid": data.userid,
-    "time": data.time,
-    "status": '0'
-  }
-  if (!data.postid || !data.userid) {
-    return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
-  }
-  else {
-
-    new Promise((resolve, reject) => {
-
-      conn1.query('INSERT INTO post_likes SET ?', requestData, function (err, rows) {
-        if (err) {
-          reject("Error");
-        } else {
-          resolve('Likes added Successfuly!');
-          return res.status(200).json({ message: "Likes added Successfuly", "statusCode": "200" });
-        }
-      });
-
-    })
-  }
-  console.log("RequestData: ", requestData);
-
-}
 // app.listen(PORT, function(err){ 
 //   if (err) console.log(err); 
 //   console.log("Server listening on PORT", PORT); 
