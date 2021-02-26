@@ -29,9 +29,9 @@ function getWallet(req, res, next) {
   var data = req.body;
 
   var requestData = {
-    "userid": data.userid
+    "id": data.id
   }
-  if (!data.userid) {
+  if (!data.id) {
 
     return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
   }
@@ -39,12 +39,41 @@ function getWallet(req, res, next) {
 
     new Promise((resolve, reject) => {
 
-      conn1.query("SELECT * FROM user WHERE id= ?", data.userid, function (err, rows) {
+      conn1.query("SELECT * FROM user WHERE id= ?", data.id, function (err, rows) {
         if (err) {
-          reject("Error");
+          return res.status(400).json({ message: err, statusMessage: "400" });
         } else {
-          resolve('Post added Successfuly!');
+          resolve('Wallet get Successfuly!');
           return res.status(200).json({ message: "Wallet get Successfuly", "statusCode": "200", data: rows });
+        }
+      });
+
+    })
+  }
+
+  console.log("RequestData: ", requestData);
+}
+
+function getTransactionHistory(req, res, next) {
+  var data = req.body;
+
+  var requestData = {
+    "id": data.id
+  }
+  if (!data.id) {
+
+    return res.status(205).json({ message: "Input validation fail", statusMessage: "205" });
+  }
+  else {
+
+    new Promise((resolve, reject) => {
+
+      conn1.query("SELECT * FROM wallet WHERE id= ?", data.id, function (err, rows) {
+        if (err) {
+          return res.status(400).json({ message: err, statusMessage: "400" });
+        } else {
+          resolve('Wallet Transaction history get Successfuly!');
+          return res.status(200).json({ message: "Wallet Transaction history get Successfuly", "statusCode": "200", data: rows });
         }
       });
 

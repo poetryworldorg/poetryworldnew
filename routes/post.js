@@ -46,7 +46,7 @@ function post(req, res, next) {
 
       conn1.query('INSERT INTO post SET ?', requestData, function (err, rows) {
         if (err) {
-          reject("Error");
+          return res.status(400).json({ message: err, statusMessage: "400" });
         } else {
           resolve('Post added Successfuly!');
           return res.status(200).json({ message: "Post added Successfuly", "statusCode": "200" });
@@ -77,7 +77,7 @@ function likes(req, res, next) {
 
       conn1.query('INSERT INTO post_likes SET ?', requestData, function (err, rows) {
         if (err) {
-          reject("Error");
+          return res.status(400).json({ message: err, statusMessage: "400" });
         } else {
           resolve('Likes added Successfuly!');
           return res.status(200).json({ message: "Likes added Successfuly", "statusCode": "200" });
@@ -108,7 +108,7 @@ function comment(req, res, next) {
 
       conn1.query('INSERT INTO post_likes SET ?', requestData, function (err, rows) {
         if (err) {
-          reject("Error");
+          return res.status(400).json({ message: err, statusMessage: "400" });
         } else {
           resolve('Likes added Successfuly!');
           return res.status(200).json({ message: "Likes added Successfuly", "statusCode": "200" });

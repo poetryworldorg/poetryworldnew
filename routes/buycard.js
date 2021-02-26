@@ -71,7 +71,7 @@ function buyCard(req, res, next) {
         resolve('Hello, I am positive number!');
         return res.status(200).json({ message: "cancelCard2" });
       }
-      reject(new Error('I failed some times'));
+      return res.status(400).json({ message: err, statusMessage: "400" });
     })
   }
   console.log("RequestData: ", requestData);

@@ -38,7 +38,7 @@ function getProfile(req, res, next) {
 
       conn1.query("SELECT * FROM user WHERE id= ?", [data.id], function (err, rows) {
         if (err) {
-          reject("Error");
+          return res.status(400).json({ message: err, statusMessage: "400" });
         } else {
           resolve('Profile get Successfuly!');
           return res.status(200).json({ message: "Profile get Successfuly", "statusCode": "200", data: rows });
